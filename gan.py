@@ -104,7 +104,7 @@ Train model : %s,\n
 
 			if step % 50 == 0:
 				print("[%d]/[%d] Finished, Generator AVG loss : [%d], Discriminator AVG loss : [%d]" % \
-					(step, len(dataloader), g_avg_loss/ args.batch_size/(step+1)), d_avg_loss/args.batch_size/(step+1))
+					(step, len(dataloader), g_avg_loss/ args.batch_size/(step+1), d_avg_loss/args.batch_size/(step+1)))
 
 
 		with torch.no_grad():

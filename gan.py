@@ -25,7 +25,7 @@ parser.add_argument("-EPOCH", "--EPOCH", dest="epoch", type=int, default=100)
 parser.add_argument("-batch", "--batch", dest="batch_size", type=int, default=30)
 parser.add_argument("-latent_dim", dest='latent_dim', type=int, default=100)
 parser.add_argument("-model", dest='model', type=str, default='gan')
-
+parser.add_argument("-dataset", dest='dataset', type=str, default='./face/train')
 
 args = parser.parse_args()
 
@@ -35,6 +35,8 @@ if not os.path.isfile('fixed.npy'):
 
 
 if __name__ == '__main__':
+
+
 
 	print('''
 Current Parameters:\n
@@ -53,7 +55,7 @@ Train model : %s,\n
 	dis_optim = optim.Adam(discriminator.parameters(), lr=1e-4)
 	gen_optim = optim.Adam(generator.parameters(), lr=1e-4)
 
-	dataloader = GAN_DATASET('./face/train')
+	dataloader = GAN_DATASET(args.dataset)
 	dataloader = DataLoader(dataloader, batch_size=args.batch_size, shuffle=True)
 
 
@@ -76,7 +78,7 @@ Train model : %s,\n
 
 			z = Variable(torch.FloatTensor(np.random.normal(0, 1, (x.size(0), args.latent_dim)))).to(device)
 			gen_img = generator(z)
-			fake = torch.Tensor(x.size(0), 1).fill_(0.0)
+			fake = torch.Tensor(x.size(0), 1).fill_(0.0).to(device)
 
 			g_loss = loss(discriminator(gen_img), fake)
 			g_avg_loss += g_loss.item()

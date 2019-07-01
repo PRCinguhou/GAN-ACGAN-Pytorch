@@ -59,14 +59,15 @@ Train model : %s,\n
 	dataloader = DataLoader(dataloader, batch_size=args.batch_size, shuffle=True)
 
 
-	g_avg_loss = 0
-	d_avg_loss = 0
 	
 
 	for ep in range(args.epoch):
 		print('EPOCH : [%d]/[%d]' % (ep, args.epoch))
 		img_list = []
 
+		g_avg_loss = 0
+		d_avg_loss = 0
+		
 		for step, batch in enumerate(dataloader):
 
 			x, y = batch
@@ -86,6 +87,8 @@ Train model : %s,\n
 
 			g_loss.backward(retain_graph=True)
 			gen_optim.step()
+
+
 
 			#### train Discriminator ####
 			dis_optim.zero_grad()

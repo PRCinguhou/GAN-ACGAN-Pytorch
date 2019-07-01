@@ -79,9 +79,9 @@ Train model : %s,\n
 
 			z = Variable(torch.FloatTensor(np.random.normal(0, 1, (x.size(0), args.latent_dim)))).to(device)
 			gen_img = generator(z)
-			fake = torch.Tensor(x.size(0), 1).fill_(0.0).to(device)
+			valid = torch.Tensor(x.size(0), 1).fill_(1.0).to(device)
 
-			g_loss = loss(discriminator(gen_img), fake)
+			g_loss = loss(discriminator(gen_img), valid)
 			g_avg_loss += g_loss.item()
 
 			g_loss.backward(retain_graph=True)

@@ -19,8 +19,6 @@ from load_data import GAN_DATASET
 cuda = True if torch.cuda.is_available() else False
 device = torch.device("cuda" if cuda else 'cpu')
 
-if not os.path.isfile('fixed.npy'):
-	np.save('fixed.npy', fixed_noise.cpu())
 
 parser = ArgumentParser()
 parser.add_argument("-EPOCH", "--EPOCH", dest="epoch", type=int, default=100)
@@ -32,6 +30,8 @@ parser.add_argument("-model", dest='model', type=str, default='gan')
 args = parser.parse_args()
 
 fixed_noise = Variable(torch.FloatTensor(np.random.normal(0, 1, (32, args.latent_dim)))).to(device)
+if not os.path.isfile('fixed.npy'):
+	np.save('fixed.npy', fixed_noise.cpu())
 
 
 if __name__ == '__main__':

@@ -84,7 +84,7 @@ Train model : %s,\n
 			g_loss = loss(discriminator(gen_img), fake)
 			g_avg_loss += g_loss.item()
 
-			g_loss.backward()
+			g_loss.backward(retain_graph=True)
 			gen_optim.step()
 
 			#### train Discriminator ####
@@ -98,7 +98,7 @@ Train model : %s,\n
 			d_avg_loss += loss.item()
 
 
-			loss.backward()
+			loss.backward(retain_graph=True)
 			dis_optim.step()
 
 

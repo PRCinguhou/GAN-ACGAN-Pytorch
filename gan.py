@@ -75,6 +75,7 @@ Train model : %s,\n
 			
 			#### train Generator ####
 			gen_optim.zero_grad()
+			dis_optim.zero_grad()
 
 			z = Variable(torch.FloatTensor(np.random.normal(0, 1, (x.size(0), args.latent_dim)))).to(device)
 			gen_img = generator(z)
@@ -88,6 +89,7 @@ Train model : %s,\n
 
 			#### train Discriminator ####
 			dis_optim.zero_grad()
+			gen_optim.zero_grad()
 
 			real_loss = loss(discriminator(x), y)
 			fake_loss = loss(discriminator(gen_img), fake)	

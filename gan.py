@@ -78,7 +78,7 @@ Train model : %s,\n
 			gen_img = generator(z)
 			fake = torch.Tensor(x.size(0), 1).fill_(0.0)
 
-			g_loss += loss(discriminator(gen_img), fake)
+			g_loss = loss(discriminator(gen_img), fake)
 			g_avg_loss += g_loss.item()
 
 			g_loss.backward()

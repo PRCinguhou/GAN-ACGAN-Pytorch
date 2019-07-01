@@ -91,6 +91,9 @@ Train model : %s,\n
 			dis_optim.zero_grad()
 			gen_optim.zero_grad()
 
+			fake = torch.Tensor(x.size(0), 1).fill_(0.0).to(device)
+
+
 			real_loss = loss(discriminator(x), y)
 			fake_loss = loss(discriminator(gen_img), fake)	
 

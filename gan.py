@@ -94,11 +94,11 @@ Train model : %s,\n
 			real_loss = loss(discriminator(x), y)
 			fake_loss = loss(discriminator(gen_img), fake)	
 
-			loss = real_loss + fake_loss
-			d_avg_loss += loss.item()
+			d_loss = real_loss + fake_loss
+			d_avg_loss += d_loss.item()
 
 
-			loss.backward(retain_graph=True)
+			d_loss.backward(retain_graph=True)
 			dis_optim.step()
 
 

@@ -61,7 +61,7 @@ Train model : %s,\n
 	dataloader = DataLoader(dataloader, batch_size=args.batch_size, shuffle=True)
 
 
-	
+	alpha = 0.9
 
 	for ep in range(args.epoch):
 		print('EPOCH : [%d]/[%d]' % (ep, args.epoch))
@@ -87,6 +87,8 @@ Train model : %s,\n
 			g_loss = loss(discriminator(gen_img), valid)
 			g_avg_loss += g_loss.item()
 
+			g_loss *= (1 - alpha)
+
 			g_loss.backward(retain_graph=True)
 			gen_optim.step()
 
@@ -105,6 +107,7 @@ Train model : %s,\n
 			d_loss = real_loss + fake_loss
 			d_avg_loss += d_loss.item()
 
+			d_loss = d_loss * alpha
 
 			d_loss.backward(retain_graph=True)
 			dis_optim.step()
@@ -113,6 +116,11 @@ Train model : %s,\n
 			if step % 50 == 0:
 				print("[%d]/[%d] Finished, Generator AVG loss : [%.4f], Discriminator AVG loss : [%.4f]" % \
 					(step, len(dataloader), g_avg_loss/(step+1), d_avg_loss/(step+1)))
+
+			alpha -= 0.1
+			if alpha <= 0.5:
+				alpha = 0.5
+
 
 		if ep % 5 == 0:
 			with torch.no_grad():

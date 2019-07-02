@@ -10,16 +10,16 @@ class Generator(nn.Module):
 		self.deconv = nn.Sequential(
 			nn.ConvTranspose2d(self.latent_dim, 64 * 8, 4, 1, 0, bias=False),
 			nn.BatchNorm2d(512),
-			nn.ReLU(True),
+			nn.LeakyReLU(True),
 			nn.ConvTranspose2d(64 * 8, 64 * 4, 4, 2, 1, bias=False),
 			nn.BatchNorm2d(256),
-			nn.ReLU(True),
+			nn.LeakyReLU(True),
 			nn.ConvTranspose2d(64 * 4, 64 * 2, 4, 2, 1, bias=False),
 			nn.BatchNorm2d(128),
-			nn.ReLU(True),
+			nn.LeakyReLU(True),
 			nn.ConvTranspose2d(64 * 2, 64, 4, 2, 1, bias=False),
 			nn.BatchNorm2d(64),
-			nn.ReLU(True),
+			nn.LeakyReLU(True),
 			nn.ConvTranspose2d(64, 3, 4, 2, 1, bias=False),
 			nn.Tanh(),
 			)
@@ -76,10 +76,10 @@ class ACGAN_Generator(nn.Module):
 		self.LinearTransform = nn.Sequential(
 			nn.Linear(self.class_num + latent_dim, 1024),
 			nn.BatchNorm1d(1024),
-			nn.ReLU(True),
+			nn.LeakyReLU(True),
 			nn.Linear(1024, 256 * 16 * 16),
 			nn.BatchNorm1d(256 * 16 * 16),
-			nn.ReLU(True)
+			nn.LeakyReLU(True)
 			)
 
 		self.generate = nn.Sequential(
@@ -142,7 +142,7 @@ class ACGAN_Discriminator(nn.Module):
 		self.class_pred = nn.Sequential(
 			nn.Linear(128 * 16 * 16, 2048),
 			nn.BatchNorm1d(2048),
-			nn.ReLU(True),
+			nn.LeakyReLU(True),
 			nn.Linear(2048, 2),
 			)
 

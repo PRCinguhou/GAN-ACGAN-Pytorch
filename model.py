@@ -55,6 +55,7 @@ class Discriminator(nn.Module):
 			nn.LeakyReLU(),
 			nn.Dropout(0.5),
 			nn.Linear(1024, 1),
+			nn.Signoid()
 			)
 
 	def forward(self, img):

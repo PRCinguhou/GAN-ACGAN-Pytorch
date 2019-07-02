@@ -75,14 +75,32 @@ Train model : %s,\n
 			x, y = batch
 			x = x.to(device)
 			y = y.to(device)
-			
+			valid = torch.Tensor(x.size(0), 1).fill_(1.0).to(device)
+			z = Variable(torch.FloatTensor(np.random.normal(0, 1, (x.size(0), args.latent_dim)))).to(device)
+			gen_img = generator(z)
+
+			#### train Discriminator ####
+			dis_optim.zero_grad()
+			gen_optim.zero_grad()
+
+			fake = torch.Tensor(x.size(0), 1).fill_(0.0).to(device)
+
+
+			real_loss = loss(discriminator(x), y)
+			fake_loss = loss(discriminator(gen_img), fake)	
+
+			d_loss = real_loss + fake_loss
+			d_avg_loss += d_loss.item()
+
+
+			d_loss.backward(retain_graph=True)
+			dis_optim.step()
+
+
 			#### train Generator ####
 			gen_optim.zero_grad()
 			dis_optim.zero_grad()
 
-			z = Variable(torch.FloatTensor(np.random.normal(0, 1, (x.size(0), args.latent_dim)))).to(device)
-			gen_img = generator(z)
-			valid = torch.Tensor(x.size(0), 1).fill_(1.0).to(device)
 
 			g_loss = loss(discriminator(gen_img), valid)
 			g_avg_loss += g_loss.item()
@@ -93,23 +111,7 @@ Train model : %s,\n
 
 
 
-			#### train Discriminator ####
-			dis_optim.zero_grad()
-			gen_optim.zero_grad()
-
-			fake = torch.Tensor(x.size(0), 1).fill_(0.0).to(device)
-
-
-			real_loss = loss(discriminator(x), y)
-			fake_loss = 1 - loss(discriminator(gen_img), fake)	
-
-			d_loss = real_loss + fake_loss
-			d_avg_loss += d_loss.item()
-
 			
-
-			d_loss.backward(retain_graph=True)
-			dis_optim.step()
 
 
 			if step % 50 == 0:

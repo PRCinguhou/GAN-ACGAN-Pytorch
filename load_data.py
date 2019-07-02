@@ -33,7 +33,7 @@ class GAN_DATASET(Dataset):
 	def __getitem__(self, idx):	
 
 
-		img = Image.open(join(os.getcwd(), self.path, self.images[idx]))
+		img = Image.open(join(os.getcwd(), self.path, 'train', self.images[idx]))
 
 		img = transform(img)
 		if self.mode == 'gan':

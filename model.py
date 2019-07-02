@@ -93,7 +93,7 @@ class ACGAN_Generator(nn.Module):
 			nn.Upsample(scale_factor=2),
 			nn.Conv2d(128, 32, 5, 1, 2),
 			nn.BatchNorm2d(32),
-			nn.LeakyReLU(True)
+			nn.LeakyReLU(True),
 
 			nn.Conv2d(32, 3, 3, 1, 1),
 			nn.BatchNorm2d(3),

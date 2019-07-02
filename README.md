@@ -14,4 +14,8 @@ Implementation of GAN &amp; ACGAN with face dataset
 <img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/00007.png" width=64 height=64 >
 <img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/00008.png" width=64 height=64 >
 <img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/00009.png" width=64 height=64 >
+<img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/00010.png" width=64 height=64 >
+<img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/00011.png" width=64 height=64 >
+<img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/00012.png" width=64 height=64 >
+<img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/00013.png" width=64 height=64 >
 </p>  

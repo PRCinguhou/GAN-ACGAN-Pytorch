@@ -78,23 +78,24 @@ Train model : %s,\n
 			valid = torch.Tensor(x.size(0), 1).fill_(1.0).to(device)
 			z = Variable(torch.FloatTensor(np.random.normal(0, 1, (x.size(0), args.latent_dim)))).to(device)
 			gen_img = generator(z)
+			
+			for i in range(2):
+				#### train Discriminator ####
+				dis_optim.zero_grad()
+				gen_optim.zero_grad()
 
-			#### train Discriminator ####
-			dis_optim.zero_grad()
-			gen_optim.zero_grad()
-
-			fake = torch.Tensor(x.size(0), 1).fill_(0.0).to(device)
-
-
-			real_loss = loss(discriminator(x), y)
-			fake_loss = loss(discriminator(gen_img), fake)	
-
-			d_loss = real_loss + fake_loss
-			d_avg_loss += d_loss.item()
+				fake = torch.Tensor(x.size(0), 1).fill_(0.0).to(device)
 
 
-			d_loss.backward(retain_graph=True)
-			dis_optim.step()
+				real_loss = loss(discriminator(x), y)
+				fake_loss = loss(discriminator(gen_img), fake)	
+
+				d_loss = real_loss + fake_loss
+				d_avg_loss += d_loss.item()
+
+
+				d_loss.backward(retain_graph=True)
+				dis_optim.step()
 
 
 			#### train Generator ####
@@ -111,8 +112,7 @@ Train model : %s,\n
 
 
 
-			
-
+		
 
 			if step % 50 == 0:
 				print("[%d]/[%d] Finished, Generator AVG loss : [%.4f], Discriminator AVG loss : [%.4f]" % \

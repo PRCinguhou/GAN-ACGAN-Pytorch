@@ -114,19 +114,19 @@ Train model : %s,\n
 				print("[%d]/[%d] Finished, Generator AVG loss : [%.4f], Discriminator AVG loss : [%.4f]" % \
 					(step, len(dataloader), g_avg_loss/(step+1), d_avg_loss/(step+1)))
 
+		if ep % 5 == 0:
+			with torch.no_grad():
+				fake = generator(fixed_noise).detach().cpu()
 
-		with torch.no_grad():
-			fake = generator(fixed_noise).detach().cpu()
+			img_list.append(vutils.make_grid(fake, padding=2, normalize=True))
+			fig = plt.figure(figsize=(8,8))
+			plt.axis("off")
+			ims = [[plt.imshow(np.transpose(i,(1,2,0)), animated=True)] for i in img_list]
+			plt.savefig('./gan_result/ep_'+str(ep)+'.jpg')
 
-		img_list.append(vutils.make_grid(fake, padding=2, normalize=True))
-		fig = plt.figure(figsize=(8,8))
-		plt.axis("off")
-		ims = [[plt.imshow(np.transpose(i,(1,2,0)), animated=True)] for i in img_list]
-		plt.savefig('./gan_result/ep_'+str(ep)+'.jpg')
-
-		torch.save(generator.state_dict(), 'generator.pth')
-		torch.save(discriminator.state_dict(), 'discriminator.pth')
-		
+			torch.save(generator.state_dict(), 'generator.pth')
+			torch.save(discriminator.state_dict(), 'discriminator.pth')
+			
 
 
 

@@ -51,10 +51,11 @@ class Discriminator(nn.Module):
 			# 128 * 16 * 16
 			)
 		self.fc = nn.Sequential(
-			nn.Linear(128 * 16 * 16, 128),
+			nn.Linear(128 * 16 * 16, 2048),
 			nn.LeakyReLU(),
 			nn.Dropout(0.5),
-			nn.Linear(128, 1),
+			nn.Linear(2048, 1),
+			nn.Sigmoid()
 			)
 
 	def forward(self, img):
@@ -131,10 +132,11 @@ class ACGAN_Discriminator(nn.Module):
 			# 128 * 16 * 16
 			)
 		self.fc = nn.Sequential(
-			nn.Linear(128 * 16 * 16, 1024),
+			nn.Linear(128 * 16 * 16, 2048),
 			nn.LeakyReLU(),
 			nn.Dropout(0.5),
-			nn.Linear(1024, 1),
+			nn.Linear(2048, 1),
+			nn.Sigmoid()
 			)
 
 		self.class_pred = nn.Sequential(

@@ -22,9 +22,10 @@ class GAN_DATASET(Dataset):
 		self.mode = mode
 		self.path = path
 		self.images = listdir(join(os.getcwd(), path, 'train'))
-		self.csv_data = pd.read_csv(join(os.getcwd(), path, 'train.csv'))
-		self.feature_index = list(self.csv_data.columns).index(feature)
-		self.csv_data = self.csv_data.values
+		if mode == 'acgan':
+			self.csv_data = pd.read_csv(join(os.getcwd(), path, 'train.csv'))
+			self.feature_index = list(self.csv_data.columns).index(feature)
+			self.csv_data = self.csv_data.values
 
 	def __len__(self):
 		return len(self.images)

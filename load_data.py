@@ -5,6 +5,7 @@ from os import listdir
 from PIL import Image
 from torchvision import transforms
 import torch
+import pandas as pd
 
 mean = [0.5, 0.5, 0.5]
 std = [0.5, 0.5, 0.5]

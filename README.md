@@ -2,7 +2,6 @@
 Implementation of GAN &amp; ACGAN with face dataset
 
 # DataSet 
-<p align="center">TSNE PLOT (LR=3e-4, Batch size = 256)</p>
 <p float="left">
 <img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/00000.png" width=64 height=64 >
 <img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/00001.png" width=64 height=64 >
@@ -14,4 +13,20 @@ Implementation of GAN &amp; ACGAN with face dataset
 <img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/00007.png" width=64 height=64 >
 <img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/00008.png" width=64 height=64 >
 <img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/00009.png" width=64 height=64 >
+<img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/00010.png" width=64 height=64 >
+<img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/00011.png" width=64 height=64 >
 </p>  
+
+# Download Dataset 
+```
+bash ./get_dataset.sh 
+```
+
+# Training 
+```
+example :  
+python3 gan.py -epoch 200 -batch 200 -lr 1e-4 
+```
+fixed noise image will save to ./gan_result
+
+# Result

@@ -60,7 +60,7 @@ Train model : %s,\n
 	g_optim = optim.Adam(generator.parameters(), lr=args.lr)
 	d_optim = optim.Adam(discriminator.parameters(), lr=args.lr)
 
-		
+	alpha = 1
 
 	for ep in range(args.epoch):
 
@@ -91,9 +91,13 @@ Train model : %s,\n
 			class_loss = loss(y, class_pred)
 
 			g_loss = valid_loss + class_loss
-			g_loss.backward(retain_grapg=True)
+			
+			g_avg_loss += g_loss.item()
 
+			g_loss.backward(retain_graph=True)
 			g_optim.step()
+
+
 
 			#### ------------------- ####
 			#### train Discriminator ####
@@ -101,8 +105,20 @@ Train model : %s,\n
 
 			d_optim.zero_grad()
 
+			real_valid, real_class = discriminator(x)
+			fake_valid, fake_class = discriminator(gen_image)
+
+			real_loss = loss(real_valid, valid) + loss(real_class, y)
+			fake_loss = loss(fake_valid, fake) + loss(fake_class, y)
+
+			all_loss = real_loss + fake_loss
 			
-			
+			d_avg_loss += all_loss.item()
+
+			all_loss.backward(retain_graph=True)
+			g_optim.step()
+
+
 
 
 

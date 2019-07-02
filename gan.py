@@ -25,7 +25,8 @@ parser.add_argument("-EPOCH", "--EPOCH", dest="epoch", type=int, default=100)
 parser.add_argument("-batch", "--batch", dest="batch_size", type=int, default=30)
 parser.add_argument("-latent_dim", dest='latent_dim', type=int, default=100)
 parser.add_argument("-model", dest='model', type=str, default='gan')
-parser.add_argument("-dataset", dest='dataset', type=str, default='./face/train')
+parser.add_argument("-dataset", dest='dataset', type=str, default='./face')
+
 
 args = parser.parse_args()
 
@@ -67,7 +68,7 @@ Train model : %s,\n
 
 		g_avg_loss = 0
 		d_avg_loss = 0
-		
+
 		for step, batch in enumerate(dataloader):
 
 			x, y = batch

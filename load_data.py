@@ -17,22 +17,36 @@ transform = transforms.Compose([
 
 class GAN_DATASET(Dataset):
 
-	def __init__(self, path):
+	def __init__(self, path, mode='gan', feature=None):
+		self.mode = mode
 		self.path = path
-		self.images = listdir(join(os.getcwd(), path))
+		self.images = listdir(join(os.getcwd(), path, 'train'))
+		self.csv_data = pd.read_csv(join(os.getcwd(), path, 'train.csv'))
+		self.feature_index = list(self.csv_data.columns).index(feature)
+		self.csv_data = self.csv_data.values
 
 	def __len__(self):
 		return len(self.images)
 
 	def __getitem__(self, idx):	
 
+
 		img = Image.open(join(os.getcwd(), self.path, self.images[idx]))
 
 		img = transform(img)
-
-		label = torch.FloatTensor([1])
+		if self.mode == 'gan':
+			label = torch.FloatTensor([1])
+		elif self.mode == 'acgan':
+			label = torch.FloatTensor([self.csv_data[idx][self.feature_index]])
 
 		return img, label
 
 
 
+if __name__ == '__main__':
+	dataloader = GAN_DATASET('face')
+	dataloader = DataLoader(dataloader, batch_size=5)
+	for index, i in enunmerate(dataloader):
+		x, y = i
+		if index == 5:
+			break

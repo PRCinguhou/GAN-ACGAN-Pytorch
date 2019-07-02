@@ -39,7 +39,8 @@ class GAN_DATASET(Dataset):
 		if self.mode == 'gan':
 			label = torch.FloatTensor([1])
 		elif self.mode == 'acgan':
-			label = torch.FloatTensor([self.csv_data[idx][self.feature_index]])
+			label = torch.FloatTensor([0, 0])
+			label[self.csv_data[idx][self.feature_index]] = 1
 
 		return img, label
 

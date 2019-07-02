@@ -26,6 +26,7 @@ parser.add_argument("-batch", "--batch", dest="batch_size", type=int, default=30
 parser.add_argument("-latent_dim", dest='latent_dim', type=int, default=100)
 parser.add_argument("-model", dest='model', type=str, default='gan')
 parser.add_argument("-dataset", dest='dataset', type=str, default='./face')
+parser.add_argument("-lr", dest='lr', type=float, default=1e-4)
 
 
 args = parser.parse_args()
@@ -53,8 +54,8 @@ Train model : %s,\n
 
 	loss = nn.BCELoss()
 	
-	dis_optim = optim.Adam(discriminator.parameters(), lr=1e-4)
-	gen_optim = optim.Adam(generator.parameters(), lr=1e-4)
+	dis_optim = optim.Adam(discriminator.parameters(), lr=args.lr)
+	gen_optim = optim.Adam(generator.parameters(), lr=args.lr)
 
 	dataloader = GAN_DATASET(args.dataset)
 	dataloader = DataLoader(dataloader, batch_size=args.batch_size, shuffle=True)

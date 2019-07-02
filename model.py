@@ -51,11 +51,10 @@ class Discriminator(nn.Module):
 			# 128 * 16 * 16
 			)
 		self.fc = nn.Sequential(
-			nn.Linear(128 * 16 * 16, 1024),
+			nn.Linear(128 * 16 * 16, 128),
 			nn.LeakyReLU(),
 			nn.Dropout(0.5),
-			nn.Linear(1024, 1),
-			nn.Sigmoid()
+			nn.Linear(128, 1),
 			)
 
 	def forward(self, img):

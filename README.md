@@ -31,6 +31,6 @@ fixed noise image will save to ./gan_result
 
 # Result
 <p float="left">
-<img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/gan.jpg" width=1200 height=300 >
-<img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/acgan.jpg" width=1200 height=300 >
+<img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/gan.jpg" width=1200 height=200 >
+<img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/acgan.jpg" width=1200 height=200 >
 </p>  

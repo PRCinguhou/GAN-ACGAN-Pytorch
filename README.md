@@ -30,3 +30,9 @@ python3 gan.py -epoch 200 -batch 200 -lr 1e-4
 fixed noise image will save to ./gan_result
 
 # Result
+<p float="left">
+<h3>gan</h3>
+<img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/gan.jpg" width=200 height=200 >
+<h3>ac-gan</h3>
+<img src="https://github.com/PRCinguhou/GAN-ACGAN-Pytorch/blob/master/readme_img/acgan.jpg" width=200 height=200 >
+</p>  

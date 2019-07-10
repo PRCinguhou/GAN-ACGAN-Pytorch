@@ -79,28 +79,9 @@ Train model : %s,\n
 			z = Variable(torch.FloatTensor(np.random.normal(0, 1, (x.size(0), args.latent_dim)))).to(device)
 			gen_img = generator(z)
 			
-			for i in range(2):
-				#### train Discriminator ####
-				dis_optim.zero_grad()
-				gen_optim.zero_grad()
-
-				fake = torch.Tensor(x.size(0), 1).fill_(0.0).to(device)
-
-
-				real_loss = loss(discriminator(x), y)
-				fake_loss = loss(discriminator(gen_img), fake)	
-
-				d_loss = real_loss + fake_loss
-				d_avg_loss += d_loss.item()
-
-
-				d_loss.backward(retain_graph=True)
-				dis_optim.step()
-
-
+		
 			#### train Generator ####
 			gen_optim.zero_grad()
-			dis_optim.zero_grad()
 
 
 			g_loss = loss(discriminator(gen_img), valid)
@@ -109,8 +90,21 @@ Train model : %s,\n
 
 			g_loss.backward(retain_graph=True)
 			gen_optim.step()
+			#### train Discriminator ####
+			dis_optim.zero_grad()
+
+			fake = torch.Tensor(x.size(0), 1).fill_(0.0).to(device)
 
 
+			real_loss = loss(discriminator(x), valid)
+			fake_loss = loss(discriminator(gen_img), fake)	
+
+			d_loss = (real_loss + fake_loss)/2
+			d_avg_loss += d_loss.item()
+
+
+			d_loss.backward(retain_graph=True)
+			dis_optim.step()
 
 		
 
@@ -120,7 +114,7 @@ Train model : %s,\n
 
 
 
-		if ep % 5 == 0:
+		if ep % 10 == 0:
 			with torch.no_grad():
 				fake = generator(fixed_noise).detach().cpu()
 
@@ -130,8 +124,8 @@ Train model : %s,\n
 			ims = [[plt.imshow(np.transpose(i,(1,2,0)), animated=True)] for i in img_list]
 			plt.savefig('./gan_result/ep_'+str(ep)+'.jpg')
 
-			torch.save(generator.state_dict(), 'generator.pth')
-			torch.save(discriminator.state_dict(), 'discriminator.pth')
+			torch.save(generator.state_dict(), 'generator_'+str(ep)+'.pth')
+			torch.save(discriminator.state_dict(), 'discriminator'+str(ep)+'.pth')
 			
 
 

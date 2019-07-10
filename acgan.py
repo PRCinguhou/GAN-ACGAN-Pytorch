@@ -24,7 +24,7 @@ parser = ArgumentParser()
 parser.add_argument("-EPOCH", "--EPOCH", dest="epoch", type=int, default=100)
 parser.add_argument("-batch", "--batch", dest="batch_size", type=int, default=30)
 parser.add_argument("-latent_dim", dest='latent_dim', type=int, default=100)
-parser.add_argument("-model", dest='model', type=str, default='gan')
+parser.add_argument("-model", dest='model', type=str, default='acgan')
 parser.add_argument("-dataset", dest='dataset', type=str, default='./face')
 parser.add_argument("-lr", dest='lr', type=float, default=1e-4)
 
@@ -32,9 +32,12 @@ parser.add_argument("-lr", dest='lr', type=float, default=1e-4)
 
 args = parser.parse_args()
 
-fixed_noise = Variable(torch.FloatTensor(np.random.normal(0, 1, (32, args.latent_dim)))).to(device)
-if not os.path.isfile('fixed.npy'):
-	np.save('fixed.npy', fixed_noise.cpu())
+fixed_noise = Variable(torch.FloatTensor(np.random.normal(0, 1, (20, args.latent_dim)))).to(device)
+zero_label = np.vstack([[1, 0] for i in range(10)])
+one_lavbel = np.vstack([[0, 1] for i in range(10)])
+fixed_label = torch.FloatTensor(np.vstack([zero_label, one_lavbel])).to(device)
+if not os.path.isfile('ac_fixed.npy'):
+	np.save('ac_fixed.npy', fixed_noise.cpu())
 
 
 if __name__ == '__main__':
@@ -88,10 +91,9 @@ Train model : %s,\n
 
 			gen_image = generator(z, y)
 			validity, class_pred = discriminator(gen_image)
-
+			
 			valid_loss = loss(validity, valid)
-			class_loss = loss(y, class_pred)
-
+			class_loss = loss(class_pred, y)
 			g_loss = valid_loss + class_loss
 			
 			g_avg_loss += g_loss.item()
@@ -104,7 +106,7 @@ Train model : %s,\n
 			#### ------------------- ####
 			#### train Discriminator ####
 			#### ------------------- ####
-
+		
 			d_optim.zero_grad()
 
 			real_valid, real_class = discriminator(x)
@@ -120,6 +122,7 @@ Train model : %s,\n
 			all_loss.backward(retain_graph=True)
 			d_optim.step()
 
+
 			if step % 50 == 0:
 				print("[%d]/[%d] Finished, Generator AVG loss : [%.4f], Discriminator AVG loss : [%.4f]" % \
 					(step, len(dataloader), g_avg_loss/(step+1), d_avg_loss/(step+1)))
@@ -127,16 +130,16 @@ Train model : %s,\n
 
 		if ep % 5 == 0:
 			with torch.no_grad():
-				fake = generator(fixed_noise).detach().cpu()
+				fake = generator(fixed_noise, fixed_label).detach().cpu()
 
 			img_list.append(vutils.make_grid(fake, padding=2, normalize=True))
 			fig = plt.figure(figsize=(8,8))
 			plt.axis("off")
 			ims = [[plt.imshow(np.transpose(i,(1,2,0)), animated=True)] for i in img_list]
-			plt.savefig('./gan_result/ep_'+str(ep)+'.jpg')
+			plt.savefig('./acgan_result/ep_'+str(ep)+'.jpg')
 
-			torch.save(generator.state_dict(), 'generator.pth')
-			torch.save(discriminator.state_dict(), 'discriminator.pth')
+			torch.save(generator.state_dict(), 'ac_generator.pth')
+			torch.save(discriminator.state_dict(), 'ac_discriminator.pth')
 			
 
 		
